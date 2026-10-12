@@ -52,8 +52,8 @@ export default function LideresMercado() {
     { name: 'Líder Chevrolet', src: '/assets/logos/chevrolet.png' },
   ];
 
-  // Quadruplicamos para garantir loop contínuo e ininterrupto sem lacunas em qualquer resolução
-  const marqueeLogos = [...logos, ...logos, ...logos, ...logos];
+  // Duplicação exata da lista para um loop contínuo e invisível
+  const marqueeLogos = [...logos, ...logos];
 
   return (
     <section className="w-full bg-[#FAFAF9] bg-clean-dots py-16 px-6 border-b border-gray-200/60 text-center overflow-hidden">
@@ -93,16 +93,23 @@ export default function LideresMercado() {
             WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)'
           }}
         >
-          <div className="animate-marquee flex items-center gap-14 md:gap-20">
+          <div 
+            className="flex flex-nowrap items-center select-none"
+            style={{
+              width: 'max-content',
+              animation: 'marquee 32s linear infinite',
+              willChange: 'transform'
+            }}
+          >
             {marqueeLogos.map((logo, index) => (
               <div 
                 key={index}
-                className="flex items-center justify-center shrink-0"
+                className="flex items-center justify-center shrink-0 px-8 md:px-12"
               >
                 <img
                   src={logo.src}
                   alt={logo.name}
-                  className="h-[40px] md:h-[48px] lg:h-[56px] w-auto object-contain opacity-60 hover:opacity-100 grayscale transition-opacity duration-300 select-none"
+                  className="h-[40px] md:h-[48px] lg:h-[56px] w-auto object-contain opacity-60 hover:opacity-100 grayscale transition-opacity duration-300 select-none pointer-events-none"
                 />
               </div>
             ))}
