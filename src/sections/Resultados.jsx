@@ -7,11 +7,8 @@ export default function Resultados() {
       <div className="max-w-[1280px] mx-auto">
         {/* Kicker & Título com Ênfase Editorial */}
         <div className="text-center max-w-3xl mx-auto mb-[48px]">
-          <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-gray-200/90 bg-white/90 shadow-[0_2px_8px_rgba(0,0,0,0.03)] text-xs font-semibold text-[#165B2E] uppercase mb-4 select-none">
-            <span className="text-gray-400 font-normal">[</span>
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-gray-200/90 bg-white/90 shadow-[0_2px_8px_rgba(0,0,0,0.03)] text-xs font-semibold text-[#165B2E] uppercase mb-4 select-none">
             <span>RESULTADOS</span>
-            <span>🔥</span>
-            <span className="text-gray-400 font-normal">]</span>
           </div>
 
           <h2 className="font-normal text-2xl sm:text-3xl md:text-4xl text-[#0F2918] leading-[1.25]">

@@ -83,11 +83,10 @@ export default function PlanosPrecos() {
     <section className="relative py-20 px-6 bg-[#FAFAF9] bg-clean-dots text-gray-900" id="planos">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border border-gray-200 bg-white/90 shadow-[0_2px_6px_rgba(0,0,0,0.02)] text-xs font-semibold text-[#165B2E] uppercase tracking-wider mb-3 select-none">
-            <span>[</span>
-            <span>NÃO PERCA MAIS TEMPO E DINHEIRO!</span>
-            <span>💸</span>
-            <span>]</span>
+          <div className="flex justify-center mb-4">
+            <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-gray-200/90 bg-white/90 shadow-[0_2px_8px_rgba(0,0,0,0.03)] text-xs font-semibold text-[#165B2E] uppercase tracking-wider select-none">
+              <span>NÃO PERCA MAIS TEMPO E DINHEIRO!</span>
+            </div>
           </div>
 
           {/* Título com Efeito de Pintura no Scroll */}

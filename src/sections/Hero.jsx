@@ -22,12 +22,9 @@ export default function Hero() {
         {/* Kicker Pill no Topo (Estilo Pill com Borda Suave da Referência) */}
         <div 
           style={{ animationDelay: '100ms' }}
-          className="animate-reveal-down inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-gray-200/90 bg-white/90 shadow-[0_2px_8px_rgba(0,0,0,0.03)] text-xs md:text-[13px] font-semibold text-[#165B2E] tracking-wide uppercase mb-6 md:mb-8 select-none"
+          className="animate-reveal-down inline-flex items-center px-4 py-1.5 rounded-full border border-gray-200/90 bg-white/90 shadow-[0_2px_8px_rgba(0,0,0,0.03)] text-xs md:text-[13px] font-semibold text-[#165B2E] tracking-wide uppercase mb-6 md:mb-8 select-none"
         >
-          <span className="text-gray-400 font-normal">[</span>
           <span>MAIS VENDAS COM MENOS TRABALHO</span>
-          <span>💚</span>
-          <span className="text-gray-400 font-normal">]</span>
         </div>
 
         {/* Título Principal com Tipografia Editorial / Itálico Sofisticado */}

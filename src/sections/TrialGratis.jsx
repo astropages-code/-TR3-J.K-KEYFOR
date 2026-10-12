@@ -63,10 +63,8 @@ export default function TrialGratis() {
 
             <div className="pt-1">
               {/* Kicker */}
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-gray-200/90 bg-white/90 shadow-xs text-xs font-semibold text-[#165B2E] uppercase mb-3 select-none">
-                <span className="text-gray-400 font-normal">[</span>
+              <div className="inline-flex items-center px-3 py-1 rounded-full border border-gray-200/90 bg-white/90 shadow-xs text-xs font-semibold text-[#165B2E] uppercase mb-3 select-none">
                 <span>7 DIAS GRÁTIS</span>
-                <span className="text-gray-400 font-normal">]</span>
               </div>
 
               {/* Título com Ênfase Editorial */}
