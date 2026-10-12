@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   MessageCircle, 
   Calendar, 
@@ -8,10 +8,15 @@ import {
   Users, 
   LayoutGrid, 
   Package,
-  ArrowRight
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 export default function KeyforBeneficios() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const carouselRef = useRef(null);
+
   const cards = [
     {
       icon: MessageCircle,
@@ -63,11 +68,32 @@ export default function KeyforBeneficios() {
     }
   ];
 
+  const handleScroll = () => {
+    if (!carouselRef.current) return;
+    const { scrollLeft } = carouselRef.current;
+    const cardWidth = carouselRef.current.children[0]?.clientWidth || 350;
+    const gap = 24;
+    const index = Math.round(scrollLeft / (cardWidth + gap));
+    setActiveIndex(Math.min(Math.max(index, 0), cards.length - 1));
+  };
+
+  const scrollToIndex = (index) => {
+    if (!carouselRef.current) return;
+    const clamped = Math.min(Math.max(index, 0), cards.length - 1);
+    const cardWidth = carouselRef.current.children[0]?.clientWidth || 350;
+    const gap = 24;
+    carouselRef.current.scrollTo({
+      left: clamped * (cardWidth + gap),
+      behavior: 'smooth'
+    });
+    setActiveIndex(clamped);
+  };
+
   return (
-    <section className="w-full bg-[#FAFAF9] bg-clean-dots text-gray-900 py-24 px-6 sm:px-10 lg:px-16" id="funcionalidades">
+    <section className="w-full bg-[#FAFAF9] bg-clean-dots text-gray-900 py-24 px-4 sm:px-8 lg:px-12 relative overflow-hidden" id="funcionalidades">
       <div className="max-w-[1280px] mx-auto">
         {/* 1. HEADER CENTRALIZADO COM ITÁLICO EDITORIAL */}
-        <div className="text-center mb-16 flex flex-col items-center">
+        <div className="text-center mb-14 flex flex-col items-center">
           <h2 className="font-normal text-[30px] sm:text-[38px] text-[#0F2918] leading-[1.25] max-w-[840px] text-center">
             Não somos um chatbot, a Keyfor IA <span className="italic font-serif text-[#165B2E]">atende</span>,{' '}
             <span className="italic font-serif text-[#165B2E]">engaja</span>,{' '}
@@ -80,93 +106,101 @@ export default function KeyforBeneficios() {
           </p>
         </div>
 
-        {/* 2. GRID DE 3 COLUNAS */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* CARDS DE 1 A 7 */}
-          {cards.slice(0, 7).map((item, index) => {
-            const IconComponent = item.icon;
-            return (
-              <div 
-                key={index}
-                className="bg-white rounded-3xl p-8 min-h-[250px] border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-md transition-all flex flex-col justify-between"
-              >
-                <div>
-                  {/* Ícone em Verde-Limão */}
-                  <div className="w-12 h-12 rounded-2xl bg-[#D2F69A] flex items-center justify-center mb-6 shadow-xs">
-                    <IconComponent className="w-5 h-5 text-[#0F2918]" />
-                  </div>
+        {/* 2. CONTAINER DO CARROSSEL COM SETAS DE NAVEGAÇÃO */}
+        <div className="relative group max-w-6xl mx-auto">
+          {/* Seta Esquerda */}
+          <button 
+            type="button"
+            onClick={() => scrollToIndex(activeIndex - 1)}
+            disabled={activeIndex === 0}
+            aria-label="Card anterior"
+            className="absolute -left-2 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur-sm border border-gray-200/90 shadow-[0_4px_16px_rgba(0,0,0,0.06)] flex items-center justify-center text-[#0F2918] hover:bg-[#D2F69A] hover:border-[#bfe87e]/60 active:scale-95 transition-all duration-150 disabled:opacity-25 disabled:pointer-events-none cursor-pointer select-none"
+          >
+            <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+          </button>
 
-                  {/* Título & Subtítulo */}
-                  <h3 className="font-bold text-[16px] text-gray-900 leading-[1.3]">
-                    {item.title}
-                  </h3>
-                  <div className="font-semibold text-[14px] text-[#165B2E] mt-1 mb-4">
-                    {item.highlight}
-                  </div>
+          {/* Seta Direita */}
+          <button 
+            type="button"
+            onClick={() => scrollToIndex(activeIndex + 1)}
+            disabled={activeIndex === cards.length - 1}
+            aria-label="Próximo card"
+            className="absolute -right-2 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur-sm border border-gray-200/90 shadow-[0_4px_16px_rgba(0,0,0,0.06)] flex items-center justify-center text-[#0F2918] hover:bg-[#D2F69A] hover:border-[#bfe87e]/60 active:scale-95 transition-all duration-150 disabled:opacity-25 disabled:pointer-events-none cursor-pointer select-none"
+          >
+            <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+          </button>
 
-                  {/* Descrição */}
-                  <p className="font-normal text-[13px] text-gray-600 leading-relaxed">
-                    {item.description}
-                  </p>
+          {/* Trilho de Cards em Linha Única */}
+          <div 
+            ref={carouselRef}
+            onScroll={handleScroll}
+            className="flex items-stretch gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory py-4 px-2 sm:px-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {cards.map((item, index) => {
+              const IconComponent = item.icon;
+              return (
+                <div 
+                  key={index}
+                  className="w-[300px] sm:w-[350px] md:w-[370px] shrink-0 bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between snap-start text-left select-none"
+                >
+                  <div>
+                    {/* Ícone em Verde-Limão */}
+                    <div className="w-12 h-12 rounded-2xl bg-[#D2F69A] flex items-center justify-center mb-6 shadow-xs">
+                      <IconComponent className="w-5 h-5 text-[#0F2918]" />
+                    </div>
+
+                    {/* Título & Destaque */}
+                    <h3 className="font-bold text-[16px] text-gray-900 leading-[1.3]">
+                      {item.title}
+                    </h3>
+                    <div className="font-semibold text-[14px] text-[#165B2E] mt-1 mb-4">
+                      {item.highlight}
+                    </div>
+
+                    {/* Descrição */}
+                    <p className="font-normal text-[13px] text-gray-600 leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-
-          {/* CARD 8: CARD CTA CENTRALIZADO NA 3ª LINHA */}
-          <div className="relative bg-transparent rounded-none p-4 flex flex-col justify-center items-center text-center">
-            {/* Linha conectora verde-limão descendo do card acima */}
-            <div className="hidden lg:flex flex-col items-center absolute -top-[44px] left-1/2 -translate-x-1/2 pointer-events-none">
-              <div className="w-[1.5px] h-[18px] bg-[#D2F69A]" />
-              <div className="w-[10px] h-[10px] rounded-full border-2 border-[#165B2E] bg-[#D2F69A]" />
-              <div className="w-[1.5px] h-[18px] bg-[#D2F69A]" />
-            </div>
-
-            <h3 className="font-bold text-[24px] sm:text-[26px] text-[#0F2918] leading-[1.25] mb-6 max-w-[320px]">
-              E muuuuuuito mais funcionalidades...
-            </h3>
-
-            <a
-              href="#planos"
-              className="inline-flex items-center justify-between gap-4 bg-[#D2F69A] hover:bg-[#c6f387] active:scale-95 hover:scale-[0.98] text-[#0F2918] font-bold text-[14px] pl-8 pr-3 py-3.5 rounded-full shadow-md transition-all duration-150 group border border-[#bfe87e]/40"
-            >
-              <span>Passar para o próximo nível</span>
-              <span className="w-8 h-8 rounded-full bg-[#0F2918] text-[#D2F69A] flex items-center justify-center shrink-0 shadow-sm transition-transform duration-200 group-hover:translate-x-1">
-                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-              </span>
-            </a>
+              );
+            })}
           </div>
 
-          {/* CARD 9: CARD ORÇAMENTOS, PRODUTOS E SERVIÇOS (COLUNA 3, LINHA 3) */}
-          {(() => {
-            const item = cards[7];
-            const IconComponent = item.icon;
-            return (
-              <div 
-                className="bg-white rounded-3xl p-8 min-h-[250px] border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-md transition-all flex flex-col justify-between"
-              >
-                <div>
-                  {/* Ícone */}
-                  <div className="w-12 h-12 rounded-2xl bg-[#D2F69A] flex items-center justify-center mb-6 shadow-xs">
-                    <IconComponent className="w-5 h-5 text-[#0F2918]" />
-                  </div>
+          {/* 3. INDICADOR DE POSIÇÃO (8 TRAÇOS COM DESTAQUE SUAVE EM VERDE-LIMÃO) */}
+          <div className="flex items-center justify-center gap-2 mt-8">
+            {cards.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => scrollToIndex(i)}
+                aria-label={`Ir para o card ${i + 1}`}
+                className={`h-2 rounded-full transition-all duration-300 cursor-pointer select-none ${
+                  activeIndex === i 
+                    ? 'w-7 sm:w-8 bg-[#84CC16] shadow-xs' 
+                    : 'w-2 bg-gray-200 hover:bg-gray-300'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
 
-                  {/* Título & Subtítulo */}
-                  <h3 className="font-bold text-[16px] text-gray-900 leading-[1.3]">
-                    {item.title}
-                  </h3>
-                  <div className="font-semibold text-[14px] text-[#165B2E] mt-1 mb-4">
-                    {item.highlight}
-                  </div>
+        {/* 4. BLOCO DE TRANSIÇÃO CENTRALIZADO ABAIXO DO CARROSSEL */}
+        <div className="mt-16 sm:mt-20 text-center flex flex-col items-center">
+          <h3 className="font-bold text-2xl sm:text-3xl md:text-[30px] text-[#0F2918] leading-[1.25] mb-6 max-w-md text-center">
+            E muuuuuuito mais funcionalidades...
+          </h3>
 
-                  {/* Descrição */}
-                  <p className="font-normal text-[13px] text-gray-600 leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
-            );
-          })()}
+          <a
+            href="#planos"
+            style={{ borderRadius: '9999px' }}
+            className="inline-flex items-center justify-between gap-4 bg-[#D2F69A] hover:bg-[#c6f387] active:scale-95 hover:scale-[0.98] text-[#0F2918] font-bold text-sm sm:text-[15px] pl-8 pr-3 py-3.5 rounded-full shadow-md hover:shadow-lg transition-all duration-150 group border border-[#bfe87e]/50 select-none cursor-pointer"
+          >
+            <span>Passar para o próximo nível</span>
+            <span className="w-8 h-8 rounded-full bg-[#0F2918] text-[#D2F69A] flex items-center justify-center shrink-0 shadow-sm transition-transform duration-200 group-hover:translate-x-1">
+              <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+            </span>
+          </a>
         </div>
       </div>
     </section>
