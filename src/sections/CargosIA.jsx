@@ -47,15 +47,17 @@ export default function CargosIA() {
     };
   }, []);
 
-  // Observador de Entrada em Cascata dos Cards (Esquerda para a Direita)
+  // Observador de Entrada em Cascata dos Cards (Esquerda para a Direita com re-execução ao rolar)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setCardsVisible(true);
+        } else {
+          setCardsVisible(false);
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.2 }
     );
 
     if (cardsContainerRef.current) {
@@ -130,10 +132,12 @@ export default function CargosIA() {
               key={index}
               style={{
                 opacity: cardsVisible ? 1 : 0,
-                transform: cardsVisible ? 'translateX(0)' : 'translateX(-36px)',
-                transition: `opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) ${index * 160}ms, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) ${index * 160}ms`
+                transform: cardsVisible ? 'translateX(0)' : 'translateX(-48px)',
+                transition: cardsVisible
+                  ? `opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${index * 160}ms, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${index * 160}ms`
+                  : 'opacity 0.2s ease-out, transform 0.2s ease-out'
               }}
-              className="h-full"
+              className={`h-full ${cardsVisible ? 'pointer-events-auto' : 'pointer-events-none'}`}
             >
               {/* Card Branco com Efeito de Pressionar / Afundar no Hover */}
               <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_6px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:translate-y-[2px] hover:scale-[0.985] active:translate-y-[3px] active:scale-[0.97] active:shadow-none transition-all duration-200 ease-out flex flex-col items-center h-full cursor-pointer select-none">
