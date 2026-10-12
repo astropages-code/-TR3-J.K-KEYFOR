@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   MessageCircle, 
   Calendar, 
@@ -14,9 +14,6 @@ import {
 } from 'lucide-react';
 
 export default function KeyforBeneficios() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const carouselRef = useRef(null);
-
   const cards = [
     {
       icon: MessageCircle,
@@ -68,6 +65,12 @@ export default function KeyforBeneficios() {
     }
   ];
 
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isManuallyStopped, setIsManuallyStopped] = useState(false);
+  const carouselRef = useRef(null);
+  const autoplayTimerRef = useRef(null);
+
   const handleScroll = () => {
     if (!carouselRef.current) return;
     const { scrollLeft } = carouselRef.current;
@@ -77,7 +80,10 @@ export default function KeyforBeneficios() {
     setActiveIndex(Math.min(Math.max(index, 0), cards.length - 1));
   };
 
-  const scrollToIndex = (index) => {
+  const scrollToIndex = (index, isManual = false) => {
+    if (isManual) {
+      setIsManuallyStopped(true);
+    }
     if (!carouselRef.current) return;
     const clamped = Math.min(Math.max(index, 0), cards.length - 1);
     const cardWidth = carouselRef.current.children[0]?.clientWidth || 350;
@@ -89,8 +95,44 @@ export default function KeyforBeneficios() {
     setActiveIndex(clamped);
   };
 
+  // Autoplay contínuo a cada 4.5s com pausa no hover e cancelamento em interação manual
+  useEffect(() => {
+    if (isPaused || isManuallyStopped) {
+      if (autoplayTimerRef.current) {
+        clearInterval(autoplayTimerRef.current);
+      }
+      return;
+    }
+
+    autoplayTimerRef.current = setInterval(() => {
+      setActiveIndex((prev) => {
+        const next = (prev + 1) % cards.length;
+        if (carouselRef.current) {
+          const cardWidth = carouselRef.current.children[0]?.clientWidth || 350;
+          const gap = 24;
+          carouselRef.current.scrollTo({
+            left: next * (cardWidth + gap),
+            behavior: 'smooth'
+          });
+        }
+        return next;
+      });
+    }, 4500);
+
+    return () => {
+      if (autoplayTimerRef.current) {
+        clearInterval(autoplayTimerRef.current);
+      }
+    };
+  }, [isPaused, isManuallyStopped, cards.length]);
+
   return (
-    <section className="w-full bg-[#FAFAF9] bg-clean-dots text-gray-900 py-24 px-4 sm:px-8 lg:px-12 relative overflow-hidden" id="funcionalidades">
+    <section 
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      className="w-full bg-[#FAFAF9] bg-clean-dots text-gray-900 py-24 px-4 sm:px-8 lg:px-12 relative overflow-hidden" 
+      id="funcionalidades"
+    >
       <div className="max-w-[1280px] mx-auto">
         {/* 1. HEADER CENTRALIZADO COM ITÁLICO EDITORIAL */}
         <div className="text-center mb-14 flex flex-col items-center">
@@ -107,11 +149,15 @@ export default function KeyforBeneficios() {
         </div>
 
         {/* 2. CONTAINER DO CARROSSEL COM SETAS DE NAVEGAÇÃO */}
-        <div className="relative group max-w-6xl mx-auto">
+        <div 
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="relative group max-w-6xl mx-auto"
+        >
           {/* Seta Esquerda */}
           <button 
             type="button"
-            onClick={() => scrollToIndex(activeIndex - 1)}
+            onClick={() => scrollToIndex(activeIndex - 1, true)}
             disabled={activeIndex === 0}
             aria-label="Card anterior"
             className="absolute -left-2 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur-sm border border-gray-200/90 shadow-[0_4px_16px_rgba(0,0,0,0.06)] flex items-center justify-center text-[#0F2918] hover:bg-[#D2F69A] hover:border-[#bfe87e]/60 active:scale-95 transition-all duration-150 disabled:opacity-25 disabled:pointer-events-none cursor-pointer select-none"
@@ -122,7 +168,7 @@ export default function KeyforBeneficios() {
           {/* Seta Direita */}
           <button 
             type="button"
-            onClick={() => scrollToIndex(activeIndex + 1)}
+            onClick={() => scrollToIndex(activeIndex + 1, true)}
             disabled={activeIndex === cards.length - 1}
             aria-label="Próximo card"
             className="absolute -right-2 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur-sm border border-gray-200/90 shadow-[0_4px_16px_rgba(0,0,0,0.06)] flex items-center justify-center text-[#0F2918] hover:bg-[#D2F69A] hover:border-[#bfe87e]/60 active:scale-95 transition-all duration-150 disabled:opacity-25 disabled:pointer-events-none cursor-pointer select-none"
@@ -173,7 +219,7 @@ export default function KeyforBeneficios() {
               <button
                 key={i}
                 type="button"
-                onClick={() => scrollToIndex(i)}
+                onClick={() => scrollToIndex(i, true)}
                 aria-label={`Ir para o card ${i + 1}`}
                 className={`h-2 rounded-full transition-all duration-300 cursor-pointer select-none ${
                   activeIndex === i 
