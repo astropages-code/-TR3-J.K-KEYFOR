@@ -35,16 +35,16 @@ export default function Hero() {
           <span className="italic font-serif">Aumente</span> seu faturamento em 47% com um atendimento de IA <span className="italic font-serif text-[#165B2E]">humanizado</span> que nunca tira férias..
         </h1>
 
-        {/* Subtítulo Clean e Respirado */}
+        {/* Subtítulo Clean e Respirado (Distribuído em exatamente 2 linhas no desktop) */}
         <p 
           style={{ animationDelay: '400ms' }}
-          className="animate-reveal-down text-gray-600 text-sm md:text-base lg:text-[17px] leading-relaxed max-w-2xl mx-auto mb-8 font-normal"
+          className="animate-reveal-down text-gray-600 text-sm md:text-base lg:text-[16.5px] leading-relaxed max-w-3xl lg:max-w-[840px] mx-auto mb-8 font-normal text-center"
         >
           Chega de perder vendas! Tenha um funcionário que trabalhe e venda 24 horas por dia e 7 dias por semana pra você. Nossa Inteligência Artificial transforma conversas em lucros.
         </p>
 
-        {/* Linha de Tags / Chips Arredondados (entrando uma após a outra da esquerda para a direita) */}
-        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-2.5 mb-8 max-w-2xl mx-auto">
+        {/* Linha de Tags / Chips Arredondados (todas as 5 pílulas em uma única linha no desktop) */}
+        <div className="flex flex-wrap md:flex-nowrap items-center justify-center gap-2 sm:gap-2.5 mb-8 max-w-4xl mx-auto">
           {[
             "Atendimento 24/7", 
             "WhatsApp Oficial", 
@@ -55,7 +55,7 @@ export default function Hero() {
             <span 
               key={i}
               style={{ animationDelay: `${550 + i * 100}ms` }}
-              className="animate-reveal-down px-4 py-1.5 rounded-full text-xs md:text-[13px] font-medium text-gray-700 bg-white/90 border border-gray-200/80 shadow-[0_2px_6px_rgba(0,0,0,0.02)] hover:border-[#165B2E]/40 hover:text-[#0F2918] transition-colors select-none"
+              className="animate-reveal-down px-3.5 sm:px-4 py-1.5 rounded-full text-xs md:text-[12.5px] lg:text-[13px] font-medium text-gray-700 bg-white/90 border border-gray-200/80 shadow-[0_2px_6px_rgba(0,0,0,0.02)] hover:border-[#165B2E]/40 hover:text-[#0F2918] transition-colors select-none whitespace-nowrap shrink-0"
             >
               {tag}
             </span>
