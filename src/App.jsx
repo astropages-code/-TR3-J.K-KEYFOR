@@ -17,6 +17,7 @@ import FiqueTranquilo from './sections/FiqueTranquilo';
 import KeyforBeneficios from './sections/KeyforBeneficios';
 import LideresMercado from './sections/LideresMercado';
 import EscolhaIdeal from './sections/EscolhaIdeal';
+import CargosIA from './sections/CargosIA';
 import Resultados from './sections/Resultados';
 import Depoimentos from './sections/Depoimentos';
 import TrialGratis from './sections/TrialGratis';
@@ -106,69 +107,7 @@ export default function App() {
       <EscolhaIdeal />
 
       {/* 8. CARGOS QUE A IA PODE OCUPAR */}
-      <section className="relative py-20 px-6 bg-[#FAFAF9] bg-clean-dots text-gray-900">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-14">
-            <h2 className="text-2xl md:text-4xl font-normal text-[#0F2918] leading-tight">
-              Esses são alguns <span className="italic font-serif text-[#165B2E]">cargos que a Keyfor IA pode ocupar</span> no seu negócio:
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
-            <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_6px_24px_rgba(0,0,0,0.04)] flex flex-col items-center">
-              <h3 className="text-lg font-bold text-[#0F2918] mb-5">Suporte</h3>
-              <div className="w-full space-y-2.5">
-                {["Responde dúvidas", "Resolve problemas", "Orienta usuários", "Envia links e instruções"].map((item, i) => (
-                  <div key={i} className="flex items-center gap-2.5 bg-[#F4F4F3] text-gray-800 px-4 py-2.5 rounded-full font-medium text-xs shadow-none">
-                    <div className="w-4 h-4 rounded-full bg-[#D2F69A] flex items-center justify-center shrink-0">
-                      <Check className="w-2.5 h-2.5 text-[#0F2918] stroke-[3]" />
-                    </div>
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_6px_24px_rgba(0,0,0,0.04)] flex flex-col items-center">
-              <h3 className="text-lg font-bold text-[#0F2918] mb-5">Atendente</h3>
-              <div className="w-full space-y-2.5">
-                {["Agenda reuniões", "Envia lembretes", "Coleta informações", "Passa para humano"].map((item, i) => (
-                  <div key={i} className="flex items-center gap-2.5 bg-[#F4F4F3] text-gray-800 px-4 py-2.5 rounded-full font-medium text-xs shadow-none">
-                    <div className="w-4 h-4 rounded-full bg-[#D2F69A] flex items-center justify-center shrink-0">
-                      <Check className="w-2.5 h-2.5 text-[#0F2918] stroke-[3]" />
-                    </div>
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_6px_24px_rgba(0,0,0,0.04)] flex flex-col items-center">
-              <h3 className="text-lg font-bold text-[#0F2918] mb-5">Vendedor</h3>
-              <div className="w-full space-y-2.5">
-                {["Qualifica leads", "Faz ofertas diretas", "Recupera compras", "Fecha vendas"].map((item, i) => (
-                  <div key={i} className="flex items-center gap-2.5 bg-[#F4F4F3] text-gray-800 px-4 py-2.5 rounded-full font-medium text-xs shadow-none">
-                    <div className="w-4 h-4 rounded-full bg-[#D2F69A] flex items-center justify-center shrink-0">
-                      <Check className="w-2.5 h-2.5 text-[#0F2918] stroke-[3]" />
-                    </div>
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="flex justify-center items-center">
-            <div className="max-w-xl w-full">
-              <img 
-                src="/assets/phone-mockup.png" 
-                alt="Smartphone com Keyfor IA" 
-                className="w-full h-auto object-contain mx-auto drop-shadow-xl"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      <CargosIA />
 
       {/* 9. MARQUEE DE NICHOS */}
       <section className="relative py-16 overflow-hidden bg-[#FAFAF9] bg-clean-dots text-gray-900 border-y border-gray-200/70">
