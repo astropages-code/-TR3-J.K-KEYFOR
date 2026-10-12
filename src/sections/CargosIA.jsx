@@ -158,13 +158,13 @@ export default function CargosIA() {
           ))}
         </div>
 
-        {/* Smartphone Mockup */}
-        <div className="flex justify-center items-center">
-          <div className="max-w-xl w-full">
+        {/* Card de Destaque - Mockup do Celular */}
+        <div className="flex justify-center items-center my-10 md:my-14">
+          <div className="w-full max-w-xl md:max-w-2xl rounded-[28px] overflow-hidden shadow-[0_20px_50px_rgba(15,41,24,0.10),0_10px_20px_rgba(0,0,0,0.04)]">
             <img 
               src="/assets/phone-mockup.png" 
               alt="Smartphone com Keyfor IA" 
-              className="w-full h-auto object-contain mx-auto drop-shadow-xl"
+              className="w-full h-full object-cover object-center block select-none"
             />
           </div>
         </div>
